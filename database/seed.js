@@ -62,4 +62,4 @@ const seed = (restaurants = 100) => {
 
 seed(100);
 
-setTimeout((() => process.exit()), 2000);
+// setTimeout((() => process.exit()), 2000);
