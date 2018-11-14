@@ -13,15 +13,17 @@ const mysql = require('mysql');
 //   console.log('CONNECTED!')
 // });
 
-const pool = mysql.createPool({
-  host: 'db',
-  port: '3306',
-  user: 'root',
-  password: 'test',
-  database: 'overview',
-})
+// const pool = mysql.createPool({
+//   host: 'db',
+//   port: '3306',
+//   user: 'root',
+//   password: 'test',
+//   database: 'overview',
+// });
 
+const pool = mysql.createConnection({
+  user: 'root',
+  database: 'overview',
+});
 
 module.exports = pool;
-
-//multiple statements

@@ -42,3 +42,12 @@ npm install -g webpack
 npm install
 ```
 
+## CRUD Endpoints
+| Action    | Method | Endpoint                                                       | Purpose              |
+|-----------|--------|----------------------------------------------------------------|----------------------|
+| Create    | POST   | /api/restaurants			                              | Create new restaurant|
+| Create    | POST   | /api/images			                              | Create new image     |
+| Read      | GET    | /api/:id 			                              | Get a restaurant     |
+| Update    | PUT    | /api/restaurants/:id 					      | Update restaurant    |
+| Delete    | DELETE | /api/restaurants/:id			                      | Delete a restaurant  |
+| Delete    | DELETE | /api/images/:id				                      | Delete an image      |
