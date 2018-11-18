@@ -5,7 +5,7 @@ CREATE DATABASE overview;
 USE overview;
 
 CREATE TABLE images (
-  id INT NOT NULL AUTO_INCREMENT,
+  id INT NOT NULL,
   user VARCHAR(30),
   image TEXT,
   description TEXT,
@@ -16,7 +16,7 @@ CREATE TABLE images (
 );
 
 CREATE TABLE restaurants (
-  id INT NOT NULL AUTO_INCREMENT,
+  id INT NOT NULL,
   name VARCHAR(50),
   address TEXT,
   phone TEXT,

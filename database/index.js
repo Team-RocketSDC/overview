@@ -1,29 +1,28 @@
-const mysql = require('mysql');
+// const mysql = require('mysql');
 
-// const connection = mysql.createConnection({
-//   host: '172.17.0.2',
-//   port: '3306',
+// // const pool = mysql.createPool({
+// //   host: 'db',
+// //   port: '3306',
+// //   user: 'root',
+// //   password: 'test',
+// //   database: 'overview',
+// // });
+
+// const pool = mysql.createConnection({
 //   user: 'root',
-//   password: 'test',
 //   database: 'overview',
 // });
+const mongoose = require('mongoose');
 
-// connection.connect((err) => {
-//   if (err) { throw err; }
-//   console.log('CONNECTED!')
-// });
+const mongoURI = 'mongodb://localhost:27017/overview';
 
-// const pool = mysql.createPool({
-//   host: 'db',
-//   port: '3306',
-//   user: 'root',
-//   password: 'test',
-//   database: 'overview',
-// });
+const db = mongoose.connect(mongoURI, { useNewUrlParser: true });
 
-const pool = mysql.createConnection({
-  user: 'root',
-  database: 'overview',
-});
+db
+  .then(db => console.log(`Connected to: ${mongoURI}`))
+  .catch((err) => {
+    console.log(`There was a problem connecting to mongo at: ${mongoURI}`);
+    console.log(err);
+  });
 
-module.exports = pool;
+module.exports = db;

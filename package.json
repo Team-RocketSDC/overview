@@ -10,8 +10,12 @@
   "scripts": {
     "compile": "webpack -d -w",
     "start": "nodemon ./server/index.js",
-    "seed2": "mysql -u root < ./database/schema.sql && node ./database/seed.js",
-    "seed": "node ./database/seed.js",
+    "db": "mysql -u root < ./database/schema.sql",
+    "psql": "psql -f database/postgres.sql -U postgres -d overview",
+    "mongR": "mongoimport -d overview -c Restaurants --type csv --file database/restaurantNews.csv --headerline",
+    "mongI": "mongoimport -d overview -c Images --type csv --file database/images.csv --headerline",
+    "seed": "node --max_old_space_size=6144 ./database/seed.js",
+    "seed-i": " node --max_old_space_size=6144 ./database/seedImages.js",
     "test": "jest --coverage"
   },
   "dependencies": {
@@ -19,11 +23,14 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "faker": "^4.1.0",
+    "mongoose": "^5.3.12",
     "mysql": "^2.16.0",
     "nodemon": "^1.18.6",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-responsive-modal": "^3.4.0",
+    "request": "^2.88.0",
+    "sprintf-js": "^1.1.1",
     "styled-components": "^4.0.2"
   },
   "devDependencies": {

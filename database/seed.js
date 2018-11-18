@@ -1,21 +1,27 @@
+const fs = require('fs');
 const faker = require('faker');
-const db = require('./index.js');
 
 const getRandomInt = max => Math.floor(Math.random() * Math.floor(max));
 
-const FOODCATEGORIES = ['food', 'drinks', 'food', 'food']; // 3/4th chance of food
+const number = 10000000;
+const restaurantsUrl = 'database/restaurantsNew.csv';
+const restaurantsCols = '_id,name,address,cost,phone,website,googleMap';
+const runAlready = false; // true if not first run
+let out;
+let i = 0;
 
-const seed = (restaurants = 100) => {
+const seed = () => {
   let randomName;
   let randomAddress;
   let randomCost;
   let randomPhone;
   let randomWebsite;
   let randomGoogleMap;
-  let query;
+  let restaurantData;
 
   // seeding the restaurants table
-  for (let i = 0; i < restaurants; i += 1) {
+  // for (let i = 0; i < restaurants; i += 1) {
+  while (i < number) {
     randomName = faker.company.companyName();
     randomAddress = [faker.address.streetAddress(), faker.address.city(), faker.address.state(), faker.address.zipCode()].join(', ');
     randomCost = getRandomInt(5) + 1;
@@ -23,43 +29,25 @@ const seed = (restaurants = 100) => {
     randomWebsite = faker.internet.url();
     randomGoogleMap = `https://s3-us-west-1.amazonaws.com/yump-sf-overview/maps/${getRandomInt(5) + 1}.png`;
 
-    query = 'INSERT INTO restaurants (name, address, cost, phone, website, googleMap) VALUE(?, ?, ?, ?, ?, ?);';
+    restaurantData = `\n${i + 1},${randomName},"${randomAddress}",${randomCost},${randomPhone},${randomWebsite},${randomGoogleMap}`;
 
-    db.query(query, [randomName, randomAddress, randomCost,
-      randomPhone, randomWebsite, randomGoogleMap], (err) => {
-      if (err) { console.log(err); }
-    });
-  }
-
-  let randomUser;
-  let randomDescription;
-  let randomDate;
-  let randomCategory;
-  let randomRestaurant;
-  let randomImage;
-  let query2;
-  // seeding the image table
-  for (let j = 0; j < 2000; j += 1) {
-    randomUser = faker.name.findName(); // Rowan Nikolaus
-    randomDescription = faker.lorem.sentences();
-    randomDate = faker.date.recent();
-    randomCategory = FOODCATEGORIES[getRandomInt(FOODCATEGORIES.length)];
-    randomRestaurant = getRandomInt(restaurants) + 1;
-
-    if (randomCategory === 'food') {
-      randomImage = `https://s3-us-west-1.amazonaws.com/yump-sf-overview/${randomCategory}/${getRandomInt(18) + 1}.jpg`;
-    } else if (randomCategory === 'drinks') {
-      randomImage = `https://s3-us-west-1.amazonaws.com/yump-sf-overview/${randomCategory}/${getRandomInt(7) + 1}.jpg`;
+    i += 1;
+    if (!out.write(restaurantData)) {
+      return;
     }
-    query2 = 'INSERT INTO images (user, description, posted, category, restaurant, image) VALUE(?, ?, ?, ?, ?, ?);';
-    // change to csv for back-end project
-    db.query(query2, [randomUser, randomDescription, randomDate, randomCategory,
-      randomRestaurant, randomImage], (err) => {
-      if (err) { console.log('ERROR', err); }
-    });
   }
+  out.end();
 };
 
-seed(100);
+out = fs.createWriteStream(restaurantsUrl);
+out.write(restaurantsCols, (err) => {
+  if (err) {
+    console.log(err);
+  }
+});
 
-// setTimeout((() => process.exit()), 2000);
+out.on('drain', () => {
+  seed();
+});
+
+seed();
