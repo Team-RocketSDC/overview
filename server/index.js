@@ -1,3 +1,4 @@
+require('newrelic');
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -27,10 +28,10 @@ app.get('/api/:id', (req, res) => {
   db.query(`SELECT * from images WHERE images.restaurant = ${theId}`, (err, result) => {
     if (err) { throw err; }
     data.images = result;
-    db.query(`SELECT * from restaurants WHERE id = ${theId}`, (err2, theData) => {
+    db.query(`SELECT * from restaurants WHERE _id = ${theId}`, (err2, theData) => {
       if (err2) { throw err2; }
       data.restaurant = theData;
-      console.log(theData);
+      // console.log(theData);
       res.send(data);
     });
   });
@@ -69,7 +70,7 @@ app.put('/api/restaurants/:id', (req, res) => {
   const update = {
     name, address, cost, phone, website, googleMap,
   };
-  db.query('UPDATE restaurants SET ? WHERE id = ?', [update, req.params.id], (err) => {
+  db.query('UPDATE restaurants SET ? WHERE _id = ?', [update, req.params.id], (err) => {
     if (err) {
       throw err;
     } else {
@@ -79,7 +80,7 @@ app.put('/api/restaurants/:id', (req, res) => {
 });
 
 app.delete('/api/restaurants/:id', (req, res) => {
-  db.query(`DELETE FROM restaurants WHERE id=${req.params.id}`, (err) => {
+  db.query(`DELETE FROM restaurants WHERE _id=${req.params.id}`, (err) => {
     if (err) {
       throw err;
     } else {
@@ -89,7 +90,7 @@ app.delete('/api/restaurants/:id', (req, res) => {
 });
 
 app.delete('/api/images/:id', (req, res) => {
-  db.query(`DELETE FROM images WHERE id=${req.params.id}`, (err) => {
+  db.query(`DELETE FROM images WHERE _id=${req.params.id}`, (err) => {
     if (err) {
       throw err;
     } else {

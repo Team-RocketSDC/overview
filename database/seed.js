@@ -29,7 +29,7 @@ const seed = () => {
     randomWebsite = faker.internet.url();
     randomGoogleMap = `https://s3-us-west-1.amazonaws.com/yump-sf-overview/maps/${getRandomInt(5) + 1}.png`;
 
-    restaurantData = `\n${i + 1},${randomName},"${randomAddress}",${randomCost},${randomPhone},${randomWebsite},${randomGoogleMap}`;
+    restaurantData = `\n${i + 1},"${randomName}","${randomAddress}",${randomCost},${randomPhone},${randomWebsite},${randomGoogleMap}`;
 
     i += 1;
     if (!out.write(restaurantData)) {

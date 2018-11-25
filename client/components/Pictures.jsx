@@ -127,7 +127,13 @@ class Pictures extends React.Component {
   static fetchData(id, callback) {
     axios.get(`/api/${id}`)
       .then((response) => {
-        callback(response.data);
+        // console.log(response.data);
+        const datum = {
+          images: response.data.images.rows,
+          restaurant: response.data.restaurant.rows,
+        };
+        // callback(response.data);
+        callback(datum);
       });
   }
 
@@ -188,6 +194,7 @@ class Pictures extends React.Component {
   }
 
   parseData(data) {
+    console.log(data);
     const newArray = [];
     let costString = '';
     data.images.forEach((image) => {
@@ -203,7 +210,7 @@ class Pictures extends React.Component {
         name: data.restaurant[0].name,
         phone: data.restaurant[0].phone,
         website: data.restaurant[0].website,
-        googleMap: data.restaurant[0].googleMap,
+        googleMap: data.restaurant[0].googlemap,
         cost: costString,
       },
     });
