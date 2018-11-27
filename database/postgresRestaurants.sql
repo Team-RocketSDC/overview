@@ -10,4 +10,4 @@ CREATE TABLE restaurants (
   googleMap TEXT
 );
 
-\copy images FROM 'database/restaurants.csv' CSV HEADER;
+\copy restaurants FROM 'database/restaurantsNew.csv' CSV HEADER;
