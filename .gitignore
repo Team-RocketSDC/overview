@@ -24,6 +24,7 @@ coverage
 build/
 dist/
 
+*.png
 *.jpg
 *.csv
 bundle.js*
